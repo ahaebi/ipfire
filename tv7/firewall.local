@@ -1,0 +1,37 @@
+
+
+# src: https://wiki.ipfire.org/addons/igmpproxy/start
+# File: /etc/sysconfig/firewall.local
+
+#!/bin/sh
+# Used for private firewall rules
+
+# See how we were called.
+case "$1" in
+  start)
+        ## add your 'start' rules here
+        /usr/local/sbin/igmpproxy /etc/igmpproxy.conf &
+
+        # for igmpproxy
+        /sbin/iptables -I IPTVINPUT -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVFORWARD -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+# end for igmpproxy
+        ;;
+  stop)
+        ## add your 'stop' rules here
+        # for igmpproxy
+        /sbin/iptables -I IPTVINPUT -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVFORWARD -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+        killall igmpproxy
+        ;;
+  reload)
+        $0 stop
+        $0 start
+        ## add your 'reload' rules here
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|reload}"
+        ;;
+esac
+
+
