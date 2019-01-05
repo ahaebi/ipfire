@@ -13,15 +13,15 @@ case "$1" in
         /usr/local/sbin/igmpproxy /etc/igmpproxy.conf &
 
         # for igmpproxy
-        /sbin/iptables -I IPTVINPUT -i ppp0 -d 224.0.0.0/4 -j ACCEPT
-        /sbin/iptables -I IPTVFORWARD -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVINPUT -i red0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVFORWARD -i red0 -d 224.0.0.0/4 -j ACCEPT
 # end for igmpproxy
         ;;
   stop)
         ## add your 'stop' rules here
         # for igmpproxy
-        /sbin/iptables -I IPTVINPUT -i ppp0 -d 224.0.0.0/4 -j ACCEPT
-        /sbin/iptables -I IPTVFORWARD -i ppp0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVINPUT -i red0 -d 224.0.0.0/4 -j ACCEPT
+        /sbin/iptables -I IPTVFORWARD -i red0 -d 224.0.0.0/4 -j ACCEPT
         killall igmpproxy
         ;;
   reload)
